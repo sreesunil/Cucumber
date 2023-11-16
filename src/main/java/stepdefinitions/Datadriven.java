@@ -1,5 +1,6 @@
 package stepdefinitions;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,7 +20,9 @@ public class Datadriven {
 		driver.get("https://login.salesforce.com");
 	}
 	@When("user enter {string} and {string}")
-	public void user_enter_and(String string, String string2) {
+	public void user_enter_and(String username, String password) {
+		driver.findElement(By.name("username")).sendKeys(username);
+		driver.findElement(By.name("pw")).sendKeys(password);
 	    
 	}
 
@@ -32,16 +35,14 @@ public class Datadriven {
 
 	}
 
-	@When("user enter {int}@gmail.com and hellojava")
-	public void user_enter_gmail_com_and_hellojava(Integer int1) {
-	   
-	}
-	
 	@Then("user gets error message")
 	public void user_gets_error_message() {
-	   
-	}
 
+		String expected = "Please check your username and password. If you still can't log in, contact your Salesforce administrator.";
+		String actual = driver.findElement(By.id("error")).getText();
+		Assert.assertEquals(expected, actual);
+
+	}
 
 
 
